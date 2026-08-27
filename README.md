@@ -136,7 +136,16 @@ these repository secrets and variables first:
 ## Published links
 
 <!-- agentic-sdlc:published-links:start -->
-_Populated automatically once the deployment pipeline succeeds._
+| Component | URL |
+| --- | --- |
+| UI | <https://construction-site-progress-capture-ui.azurewebsites.net> |
+| API | <https://construction-site-progress-capture-api.azurewebsites.net> |
+| Swagger UI | <https://construction-site-progress-capture-api.azurewebsites.net/docs> |
+| OpenAPI document | <https://construction-site-progress-capture-api.azurewebsites.net/openapi.json> |
+| Capture API | <https://construction-site-progress-capture-api.azurewebsites.net/api/captures> |
+| API health probe | <https://construction-site-progress-capture-api.azurewebsites.net/health> |
+
+_Published and verified 2026-08-27 11:41 UTC by the Agentic SDLC DevOps & Release Agent via `deploy-azure.yml`. Smoke tests covered the health probe, Swagger/OpenAPI, the UI, and a create/update/delete round trip._
 <!-- agentic-sdlc:published-links:end -->
 
 ## Requirements scope
