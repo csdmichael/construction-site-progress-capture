@@ -145,7 +145,7 @@ these repository secrets and variables first:
 | Capture API | <https://construction-site-progress-capture-api.azurewebsites.net/api/captures> |
 | API health probe | <https://construction-site-progress-capture-api.azurewebsites.net/health> |
 
-_Published and verified 2026-08-31 20:34 UTC by the Agentic SDLC DevOps & Release Agent via `deploy-azure.yml`. Smoke tests covered the health probe, Swagger/OpenAPI, the UI, and a create/update/delete round trip._
+_Published and verified 2026-08-31 20:40 UTC by the Agentic SDLC DevOps & Release Agent via `deploy-azure.yml`. Smoke tests covered the health probe, Swagger/OpenAPI, the UI, and a create/update/delete round trip._
 <!-- agentic-sdlc:published-links:end -->
 
 ## Requirements scope
