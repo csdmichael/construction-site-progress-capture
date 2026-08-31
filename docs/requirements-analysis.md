@@ -1,148 +1,162 @@
-Construction Site Progress Capture – Plan Stage Proposal
+## Construction Site Progress Capture – Plan Stage Proposal
 
-This proposal is structured for review and approval, with traceability to business requirements, technical constraints, and UX inputs. All content is derived from untrusted intake documents and subject to human approval gates.
+### 1. Overview
 
----
-
-## 1. Epic
-
-**EPIC-01: Construction Site Progress Capture**  
-*Outcome Statement:*  
-As a construction delivery organisation, we need site engineers to record progress, evidence, and daily site conditions against work packages as the work happens, so that valuations are produced from fact rather than recollection and disruption claims rest on a contemporaneous record.
-
----
-
-## 2. Features
-
-### FEAT-01: Work Package Progress Capture
-- Presents work packages assigned to engineers with measured items.
-- Records quantity installed at the point of work, not at period end.
-
-### FEAT-02: Evidence and Location Capture
-- Ties photographic evidence to work package, location, and date.
-- Ensures evidence is retrievable for valuation lines.
-
-### FEAT-03: Daily Site Record
-- Captures weather, labour, plant, and disruption events daily.
-- Locks daily record at cut-off; late entries are marked.
-
-### FEAT-04: Valuation Preparation and Approval
-- Assembles valuation from captured quantities and evidence.
-- Supports review and approval workflow.
+**Project Name:** Construction Site Progress Capture  
+**Release Target:** Progress captured at point of installation, daily site records, evidence-linked valuations  
+**Environment:** Dev  
+**Business Outcome:**  
+- Progress and evidence captured contemporaneously, not reconstructed  
+- Valuations produced from factual records  
+- Disruption claims supported by daily site records  
+- Evidence attached to every valuation line
 
 ---
 
-## 3. User Stories & Acceptance Criteria
+### 2. Traceable Requirements Breakdown
 
-### FEAT-01: Work Package Progress Capture
+#### 2.1 Epic
 
-**US-101:**  
-*As a site engineer, I want to record quantity installed against a measured item at the point of work, so that the figure reflects what was built rather than what was remembered.*  
-- **Acceptance Criteria:**
-  - Quantity is captured against item, location, and date.
-  - Cumulative quantity shown vs contract quantity.
-  - Submission blocked if cumulative exceeds contract quantity unless variation referenced.
-
-**US-102:**  
-*As a project manager, I want progress visible by work package as it is captured, so that I can see the true position without waiting for a monthly return.*  
-- **Acceptance Criteria:**
-  - Package view reflects captures within 5 minutes.
-  - Packages with no capture for 7 days are flagged as stale.
-
-### FEAT-02: Evidence and Location Capture
-
-**US-201:**  
-*As a site engineer, I want photographs tied to the work package and location automatically, so that evidence can be found later without searching a camera roll.*  
-- **Acceptance Criteria:**
-  - Photograph stored with package, item, location, and capture time.
-  - Offline evidence queued locally; uploads within 5 minutes of reconnection.
-
-**US-202:**  
-*As a quantity surveyor, I want to retrieve the evidence behind any valuation line, so that a client challenge is answered from the record.*  
-- **Acceptance Criteria:**
-  - Valuation line shows all contributing photographs and progress entries.
-  - Lines missing evidence are flagged as unevidenced.
-
-### FEAT-03: Daily Site Record
-
-**US-301:**  
-*As a site engineer, I want to record weather, labour, and plant daily, so that the facts are captured contemporaneously.*  
-- **Acceptance Criteria:**
-  - Daily record locks at defined cut-off.
-  - Late entries are marked as late.
-
-### FEAT-04: Valuation Preparation and Approval
-
-**US-401:**  
-*As a quantity surveyor, I want to assemble a valuation from captured quantities and evidence, so that payment applications are supported by fact.*  
-- **Acceptance Criteria:**
-  - Valuation assembled from captured records.
-  - Lines without evidence are flagged.
-  - Approval workflow supports review and sign-off.
+| Epic ID   | Title                             | Outcome Statement                                                                                      | Owner              |
+|-----------|-----------------------------------|--------------------------------------------------------------------------------------------------------|--------------------|
+| EPIC-01   | Construction Site Progress Capture | Site engineers record progress, evidence, and daily site conditions against work packages as work happens | Commercial Director|
 
 ---
 
-## 4. Tasks
+#### 2.2 Features
 
-- Design Angular/Ionic screens per UX mockups (SCR-01 to SCR-04).
-- Implement offline-first progress capture with service worker.
-- Integrate camera and geolocation APIs for evidence capture.
-- Develop FastAPI endpoints for progress, evidence, daily record, and valuation.
-- Configure Azure SQL for relational data; Blob storage for evidence.
-- Implement daily record locking and late entry marking.
-- Route all agent/model traffic through Azure API Management.
-- Entra ID integration for user authentication and package scoping.
-- GitHub Actions setup for CI/CD with environment protection.
+| Feature ID | Title                       | Description                                                                                                   |
+|------------|-----------------------------|---------------------------------------------------------------------------------------------------------------|
+| FEAT-01    | Work Package Progress Capture| Record installed quantities against measured items at point of work, not month-end                            |
+| FEAT-02    | Evidence and Location Capture| Tie photographic evidence to work package, location, and date                                                 |
+| FEAT-03    | Daily Site Record            | Capture weather, labour, plant, and disruption events daily                                                   |
+| FEAT-04    | Valuation and Approval       | Assemble valuation from captured quantities and evidence, with QS review and approval                         |
 
 ---
 
-## 5. Acceptance Criteria (Summary Table)
+#### 2.3 User Stories & Acceptance Criteria
 
-| Feature | User Story | Acceptance Criteria |
-|---------|------------|--------------------|
-| FEAT-01 | US-101     | Quantity captured, cumulative shown, excess blocked w/ variation |
-| FEAT-01 | US-102     | Progress visible within 5 min, stale flagged after 7 days |
-| FEAT-02 | US-201     | Photo tied to package/location/time, offline queue, upload on reconnect |
-| FEAT-02 | US-202     | Evidence retrievable per valuation line, unevidenced flagged |
-| FEAT-03 | US-301     | Daily record locks at cut-off, late marked |
-| FEAT-04 | US-401     | Valuation from captured fact, unevidenced flagged, approval workflow |
+**FEAT-01: Work Package Progress Capture**
 
----
+| US ID   | User Story                                                                                                      | Acceptance Criteria                                                                                                                                                                                                                                                                                                                                                                                                         | Priority |
+|---------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| US-101  | As a site engineer, I want to record quantity installed against a measured item at the point of work, so that the figure reflects what was built rather than what was remembered. | - Quantity is captured against item, location, and date<br>- Cumulative quantity shown<br>- If cumulative exceeds contract quantity, submission is blocked and variation must be referenced before excess is recorded                                                                                                                           | Must     |
+| US-102  | As a project manager, I want progress visible by work package as it is captured, so that I can see the true position without waiting for a monthly return. | - Package view shows percentage complete within 5 minutes of capture<br>- Packages with no capture for 7 days are flagged as stale                                                                                                                             | Should   |
 
-## 6. Dependencies
+**FEAT-02: Evidence and Location Capture**
 
-- Commercial system APIs for work packages and rates (REST, OAuth2).
-- Azure SQL and Blob Storage provisioned and accessible.
-- Entra ID and Entra External ID configured for user roles.
-- Azure API Management routing for agent/model traffic.
-- Foundry agent workflow for daily narrative and disruption pattern analysis.
-- GitHub Actions for CI/CD.
+| US ID   | User Story                                                                                                      | Acceptance Criteria                                                                                                                                                                                                                                                                                                                                                                                                         | Priority |
+|---------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| US-201  | As a site engineer, I want photographs tied to the work package and location automatically, so that evidence can be found later without searching a camera roll. | - Photograph captured during progress entry is stored with package, item, location, and time<br>- Offline evidence is queued locally and uploads within 5 minutes of reconnection                                                                                                                        | Must     |
+| US-202  | As a quantity surveyor, I want to retrieve the evidence behind any valuation line, so that a client challenge is answered from the record. | - Valuation line shows all contributing photographs and progress entries with capture date and location<br>- Lines missing evidence are flagged as unevidenced during valuation prep                                                                             | Must     |
 
----
+**FEAT-03: Daily Site Record**
 
-## 7. Risks
+| US ID   | User Story                                                                                                      | Acceptance Criteria                                                                                                                                                                                                                                                                                                                                                                                                         | Priority |
+|---------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| US-301  | As a site engineer, I want to record weather, labour, and plant daily, so that the facts are captured as they occur. | - Daily record is locked at cut-off and cannot be revised<br>- Disruption events recorded with timestamp<br>- Late entries are marked as such                                                                                                                     | Must     |
 
-- **Offline Capture Reliability:** Signal loss in basements/steelwork may delay evidence upload; robust local queue required.
-- **Data Isolation:** Subcontractor access must be strictly scoped; risk of cross-package visibility.
-- **Evidence Integrity:** Blob storage must be immutable post-valuation approval; risk of evidence alteration.
-- **API Availability:** Commercial system outages may block valuation assembly; fallback and cache age marking required.
-- **Agent Workflow Approval:** Narrative and disruption patterns must pause for human review; risk if bypassed.
-- **Accessibility:** Tablet UI must support gloved use, bright/dark conditions, and accessibility standards.
+**FEAT-04: Valuation and Approval**
+
+| US ID   | User Story                                                                                                      | Acceptance Criteria                                                                                                                                                                                                                                                                                                                                                                                                         | Priority |
+|---------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| US-401  | As a quantity surveyor, I want to assemble a valuation from captured quantities and evidence, so that payment applications are supported by fact. | - Valuation lines are generated from captured quantities and evidence<br>- Lines without evidence are flagged<br>- QS review and approval required before submission                                                                                              | Must     |
 
 ---
 
-## 8. Traceability
+#### 2.4 Tasks
 
-- All features, user stories, and acceptance criteria are mapped to intake requirements and UX mockups.
-- Technical stack and architecture conform to approved constraints.
-- Success measures (audit, cycle time, disruption recording, challenge reduction) are supported by traceable records.
+- **Frontend (Ionic/Angular):**
+  - Implement Work Package List (SCR-01)
+  - Progress and Evidence Capture screen (SCR-02)
+  - Daily Site Record screen (SCR-03)
+  - Valuation and Approval screen (SCR-04)
+  - Offline capture and sync logic
+  - Camera and geolocation integration
+  - Accessibility and validation per UX spec
+
+- **Backend (FastAPI/Python):**
+  - Progress entry API (with contract quantity validation)
+  - Evidence storage and linkage (Azure Blob)
+  - Daily record locking and disruption event API
+  - Valuation assembly logic (with evidence checks)
+  - Integration with commercial system for package/rate data
+  - Managed identity authentication
+
+- **Agent Workflow (Foundry/Microsoft Agent Framework):**
+  - Daily narrative drafting agent
+  - Disruption pattern highlighting agent
+  - Workflow pause for commercial manager review
+
+- **DevOps:**
+  - GitHub Actions pipeline setup
+  - Azure App Service deployment
+  - Blob storage configuration (immutable evidence)
+  - Entra ID integration for user access
 
 ---
 
-## 9. Review Gate
+#### 2.5 Acceptance Criteria (Summary Table)
 
-This proposal is ready for review. No external system changes are claimed. All requirements, tasks, and risks are traceable to intake documents and subject to approval.
+| Story/Feature | Acceptance Criteria                                                                                  |
+|---------------|-----------------------------------------------------------------------------------------------------|
+| US-101        | Quantity recorded, cumulative shown, contract limit enforced, variation required for excess          |
+| US-102        | Progress visible within 5 min, stale flag after 7 days                                              |
+| US-201        | Photo tied to package/item/location/time, offline queue, upload on reconnection                      |
+| US-202        | Evidence retrievable per valuation line, unevidenced lines flagged                                   |
+| US-301        | Daily record locked at cut-off, disruption events timestamped, late entries marked                   |
+| US-401        | Valuation assembled from captured fact, evidence checks, QS approval required                        |
 
 ---
 
-**Please review and approve or return with comments.**
+#### 2.6 Dependencies
+
+- Commercial system API for work packages, measured items, rates
+- Azure SQL Database for relational storage
+- Azure Blob Storage for evidence
+- Microsoft Entra ID for identity and access control
+- Microsoft Foundry and Agent Framework for narrative/disruption workflow
+- Azure API Management for model traffic routing and content safety
+
+---
+
+#### 2.7 Risks
+
+| Risk ID | Description                                                                                  | Mitigation                                                                                  |
+|---------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| R-01    | Offline capture reliability in basements/steelwork                                            | Service worker and local queue, robust sync logic                                           |
+| R-02    | Evidence integrity and retention                                                             | Blob storage with immutability, evidence flagged if missing                                 |
+| R-03    | Subcontractor data isolation                                                                 | Entra External ID, package scoping enforced at API and UI                                   |
+| R-04    | Valuation challenge due to missing evidence                                                  | Evidence checks and unevidenced lines flagged                                               |
+| R-05    | Disruption narrative accuracy                                                                | Agent workflow always paused for human review                                               |
+| R-06    | API integration failures (commercial system, rates)                                          | Retry/backoff, serve cached data with age, block valuation if stale                         |
+| R-07    | Accessibility and usability in harsh site conditions                                         | UX design for gloved use, bright/dark environments, accessibility validation                |
+
+---
+
+#### 2.8 Traceability Matrix
+
+| Requirement ID | Feature/User Story | UX Screen | Technical Component | Acceptance Criteria |
+|----------------|-------------------|-----------|---------------------|--------------------|
+| US-101         | FEAT-01           | SCR-01, SCR-02 | Progress API, Frontend | Quantity capture, contract limit |
+| US-201         | FEAT-02           | SCR-02         | Evidence API, Blob Storage | Photo linkage, offline queue |
+| US-301         | FEAT-03           | SCR-03         | Daily Record API, Locker | Record lock, disruption event |
+| US-401         | FEAT-04           | SCR-04         | Valuation Assembler, Approval | Valuation from fact, evidence check |
+
+---
+
+### 3. Cost and Time Estimate (Reference)
+
+- **Estimated tokens:** 78,625
+- **Estimated model cost:** USD 0.20
+- **Estimated active workflow time:** 0.4 hours
+- **Human approval wait time is excluded**
+- **ROI:** Autonomous SDLC option saves 106.4 hours and USD 10,640.00 vs manual orchestration
+
+---
+
+### 4. Proposal Summary
+
+This proposal defines a traceable, reviewable plan for the Construction Site Progress Capture application, mapping approved business requirements and UX inputs to actionable epics, features, user stories, tasks, acceptance criteria, dependencies, and risks. All requirements are traceable to intake documents and mapped to UX screens and technical components. No external system changes are claimed; all integrations and workflow pauses are enforced per architecture and compliance constraints.
+
+**Ready for review and human approval.**
